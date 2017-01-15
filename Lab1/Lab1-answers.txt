@@ -1,0 +1,27 @@
+Adam Reilly
+W205- Storing and Retrieving Data
+Lab 1
+
+Q1: What is the difference between EBS and S3? 
+
+Both these services can be used for storage but have different primary uses. EBS is used like a separate hard drive and must be attached to EC2 instances. EBS is faster to search than S3, but can
+only be accessed by one machine at a time. S3 (Simple Storage Service) is a system for an object oriented data repository; where EBS is comparable to a hard drive, S3 is more comparable to a 
+server (albeit without some functionality like locks or permissions, but with more flexbility). S3 can store data from not only EC2 instances, but also from the web in general. S3 is far more 
+scalable than EBS. S3 excellent at storing videos or images used on websites.
+
+Q2: When would you consider a cloud infrastructure for your data science tasks? 
+Cloud infrastructure is useful for data science tasks when the amount of data used grows beyond the point where physical servers used to store data become cumbersome and expensive. 
+Cloud computing allows for easier and cheaper data storage, which can be very important when working with big data. Various forms of cloud computing also integrate with many data science tasks, 
+making the cloud useful for both analysis and storage. The cloud also has excellent collaberation ability.
+
+Q3: What is the difference between spot instances and reserved instances? 
+
+Spot instances are instances that you bid on  (per hourly use). You bid a price, and if the current market spot instance price is below your bid price, you have the ability to use that 
+instance until the market price increases over your bid price. There is a realistic danger that these instances will be interrupted, so are generally good for times when you need a 
+temporary number of increase.
+
+Reserved instances are very different. Whereas spot instances are temporary, you buy reserved instances in either 1 or 3 year commitments. As such, reserved instances should be used for
+workloads that are very predictable and that you know you will generally need. Both types of instances have lower pricing than on-demand pricing, but are used for different types of workloads.
+
+Q4: List the names of four software packages installed on the UCB AMI
+Hadoop, IPython, Streamparse, Pgxl Development Tools
