@@ -1,0 +1,27 @@
+Adam Reilly
+w205
+Lab 2
+
+List the HDFS contents of /user
+###I included an image confirming all of these
+drwxrwxrwx   - hive    supergroup          0 2017-01-18 04:22 /user/hive
+drwxrwxrwx   - hue     supergroup          0 2017-01-18 04:23 /user/hue
+drwxrwxrwx   - jenkins supergroup          0 2017-01-18 04:21 /user/jenkins
+drwxrwxrwx   - oozie   supergroup          0 2017-01-18 04:23 /user/oozie
+drwxrwxrwx   - root    supergroup          0 2017-01-18 04:22 /user/root
+drwxr-xr-x   - hdfs    supergroup          0 2017-01-18 04:25 /user/spark
+drwxr-xr-x   - w205    supergroup          0 2017-01-18 04:25 /user/w205
+
+Inspect the output of the HDFS admin report and answer the following questions in a text file.
+
+-To generate this, exit from the w205 user and type: sudo -u hdfs hdfs dfsadmin -report
+
+###I included an image confirming all these numbers
+Q1: How many live datanodes are there?
+1
+
+Q2: How much non-DFS storage is used?
+5473889596 (5.10 GB)
+
+Q3: How much DFS storage is used?
+143508164 (136.86 MB) (which is also listed at 0.14%)
