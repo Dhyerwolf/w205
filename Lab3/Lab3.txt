@@ -1,0 +1,374 @@
+Adam Reilly
+w205
+Lab 3
+
+1. List the execution time of the weblog aggregation query for Hive, SparkSQL, and SparkSQL on Parquet.
+
+Hive: 118.303 seconds
+SparkSQL: 28.681 seconds
+SparkSQL on Parquet 8.216 Seconds
+
+2. How many jobs does Hive launch? Does SparkSQL launch jobs?
+Hive launches 2 jobs (Map and reduce). SparkSQL does not launch jobs.
+
+3. Write a query which joins weblogs_parquet to user_info and counts the top 5 locations. List the locations.
+CREATE TABLE L3Q3Table AS
+SELECT weblogs_schema.datetime as wdate, user_info.user_id, session_id, product_id, referrer, user_info.datetime as udate, first_name, last_name, location
+FROM weblogs_schema
+INNER JOIN user_info ON user_info.user_id = weblogs_schema.user_id
+ORDER BY location;
+
+SELECT location, COUNT(*) as locationcount
+FROM L3Q3Table
+GROUP BY location
+ORDER BY locationcount DESC;
+
+La Fayette      49
+Leeds   47
+Blountsville    46
+Hayden  45
+Hamilton        45
+
+
+
+
+
+
+
+
+
+
+
+
+
+You can ignore the portion below this line. This is just the code output I used to get some of the answers.
+------------
+[w205@ip-172-31-49-176 ~]$ hive
+SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/usr/lib/zookeeper/lib/slf4j-log4j12-1.7.5.jar!/org/slf4j/impl/Sta   ticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/home/w205/spark15/lib/spark-assembly-1.5.0-hadoop2.6.0.jar!/org/s   lf4j/impl/StaticLoggerBinder.class]
+SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+SLF4J: Actual binding is of type [org.slf4j.impl.Log4jLoggerFactory]
+SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/usr/lib/zookeeper/lib/slf4j-log4j12-1.7.5.jar!/org/slf4j/impl/Sta   ticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/home/w205/spark15/lib/spark-assembly-1.5.0-hadoop2.6.0.jar!/org/s   lf4j/impl/StaticLoggerBinder.class]
+SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+SLF4J: Actual binding is of type [org.slf4j.impl.Log4jLoggerFactory]
+
+Logging initialized using configuration in jar:file:/usr/lib/hive/lib/hive-common-1.1.0-cdh5.4.5.jar   !/hive-log4j.properties
+WARNING: Hive CLI is deprecated and migration to Beeline is recommended.fg
+hive> CREATE EXTERNAL TABLE IF NOT EXISTS weblogs_flat
+    > (weblog string)
+    > ROW FORMAT DELIMITED
+    > STORED AS TEXTFILE
+    > LOCATION '/user/w205/lab_3/weblog_data';
+OK
+Time taken: 1.533 seconds
+hive> SELECT * FROM weblogs_flat LIMIT 10;
+OK
+date    userid  sessionid       productid       refererurl
+2008-01-31 15:54:25     __RequestVerificationToken_Lw__=2ADB2   ;+.ASPXAUTH=C31HDWD05KU00943S   /pro   duct/YJ29IOCVQ  http://www.abc.com
+2005-12-08 02:36:30     __RequestVerificationToken_Lw__=13233   ;+.ASPXAUTH=H7HTS9Q9CC8ZXSERD   /pro   duct/MVI9HHP8A  http://www.ebay.com
+2015-06-07 23:27:58     __RequestVerificationToken_Lw__=B322B   ;+.ASPXAUTH=58SZL3FPGFUS8KLNA   /sea   rch/P5XKO3AC9   http://www.abc.com
+2009-03-12 03:16:27     __RequestVerificationToken_Lw__=1A1C2   ;+.ASPXAUTH=VBWZJJR6CG85YSOM3   /pro   duct/A13025WBT  http://www.shophealthy.com
+2014-07-23 08:36:03     __RequestVerificationToken_Lw__=2B1C2   ;+.ASPXAUTH=VXBLEXUC177T4S7AA   /sea   rch/5PI9XD6LZ   http://www.facebook.com
+2002-12-30 08:42:09     __RequestVerificationToken_Lw__=B11A2   ;+.ASPXAUTH=YABJBNQ7HQWYST1CV   /pro   duct/WS80XJFW2  http://www.xyz.com
+2004-11-03 20:29:10     __RequestVerificationToken_Lw__=11C2C   ;+.ASPXAUTH=2F90NTSZM9LJH7IGU   /pro   duct/OJ201IBUN  http://www.homeshop18.com
+2012-01-26 12:39:57     __RequestVerificationToken_Lw__=DD1BC   ;+.ASPXAUTH=SEWRRGGBHGP2G6H2J   /pro   duct/OA3QGXF1U  http://www.xyz.com
+2008-04-30 02:01:34     __RequestVerificationToken_Lw__=C3CDA   ;+.ASPXAUTH=6OB103SJY0RGI3UXM   /sea   rch/K1IRBE1DU   http://www.abc.com
+Time taken: 1.043 seconds, Fetched: 10 row(s)
+hive> SELECT * FROM weblogs_flat WHERE weblog NOT LIKE 'date%' LIMIT 10;
+OK
+2008-01-31 15:54:25     __RequestVerificationToken_Lw__=2ADB2   ;+.ASPXAUTH=C31HDWD05KU00943S   /pro   duct/YJ29IOCVQ  http://www.abc.com
+2005-12-08 02:36:30     __RequestVerificationToken_Lw__=13233   ;+.ASPXAUTH=H7HTS9Q9CC8ZXSERD   /pro   duct/MVI9HHP8A  http://www.ebay.com
+2015-06-07 23:27:58     __RequestVerificationToken_Lw__=B322B   ;+.ASPXAUTH=58SZL3FPGFUS8KLNA   /sea   rch/P5XKO3AC9   http://www.abc.com
+2009-03-12 03:16:27     __RequestVerificationToken_Lw__=1A1C2   ;+.ASPXAUTH=VBWZJJR6CG85YSOM3   /pro   duct/A13025WBT  http://www.shophealthy.com
+2014-07-23 08:36:03     __RequestVerificationToken_Lw__=2B1C2   ;+.ASPXAUTH=VXBLEXUC177T4S7AA   /sea   rch/5PI9XD6LZ   http://www.facebook.com
+2002-12-30 08:42:09     __RequestVerificationToken_Lw__=B11A2   ;+.ASPXAUTH=YABJBNQ7HQWYST1CV   /pro   duct/WS80XJFW2  http://www.xyz.com
+2004-11-03 20:29:10     __RequestVerificationToken_Lw__=11C2C   ;+.ASPXAUTH=2F90NTSZM9LJH7IGU   /pro   duct/OJ201IBUN  http://www.homeshop18.com
+2012-01-26 12:39:57     __RequestVerificationToken_Lw__=DD1BC   ;+.ASPXAUTH=SEWRRGGBHGP2G6H2J   /pro   duct/OA3QGXF1U  http://www.xyz.com
+2008-04-30 02:01:34     __RequestVerificationToken_Lw__=C3CDA   ;+.ASPXAUTH=6OB103SJY0RGI3UXM   /sea   rch/K1IRBE1DU   http://www.abc.com
+2003-08-23 09:44:43     __RequestVerificationToken_Lw__=1BB2D   ;+.ASPXAUTH=1NRGS0EVQ46Q1D5E2   /pro   duct/ANGEKDMKM  http://www.shophealthy.com
+Time taken: 0.461 seconds, Fetched: 10 row(s)
+hive> CREATE EXTERNAL TABLE IF NOT EXISTS weblogs_schema
+    > (datetime string,
+    > user_id string,
+    > session_id string,
+    > product_id string,
+    > referrer string)
+    > ROW FORMAT DELIMITED
+    > FIELDS TERMINATED BY '\t'
+    > STORED AS TEXTFILE
+    > LOCATION '/user/w205/lab_3/weblog_data';
+OK
+Time taken: 0.095 seconds
+hive> SELECT user_id, COUNT(user_id) AS log_count
+    > FROM weblogs_schema GROUP BY user_id
+    > ORDER BY log_count DESC
+    > LIMIT 50;
+Query ID = w205_20170127004242_7ae955f9-441d-4fca-8dda-df6e6634e562
+Total jobs = 2
+Launching Job 1 out of 2
+Number of reduce tasks not specified. Estimated from input data size: 1
+In order to change the average load for a reducer (in bytes):
+  set hive.exec.reducers.bytes.per.reducer=<number>
+In order to limit the maximum number of reducers:
+  set hive.exec.reducers.max=<number>
+In order to set a constant number of reducers:
+  set mapreduce.job.reduces=<number>
+Starting Job = job_1485476769108_0001, Tracking URL = http://ip-172-31-49-176.ec2.internal:8088/prox   y/application_1485476769108_0001/
+Kill Command = /usr/lib/hadoop/bin/hadoop job  -kill job_1485476769108_0001
+Hadoop job information for Stage-1: number of mappers: 1; number of reducers: 1
+2017-01-27 00:43:15,499 Stage-1 map = 0%,  reduce = 0%
+2017-01-27 00:43:35,116 Stage-1 map = 100%,  reduce = 0%, Cumulative CPU 3.84 sec
+2017-01-27 00:43:53,189 Stage-1 map = 100%,  reduce = 100%, Cumulative CPU 7.95 sec
+MapReduce Total cumulative CPU time: 7 seconds 950 msec
+Ended Job = job_1485476769108_0001
+Launching Job 2 out of 2
+Number of reduce tasks determined at compile time: 1
+In order to change the average load for a reducer (in bytes):
+  set hive.exec.reducers.bytes.per.reducer=<number>
+In order to limit the maximum number of reducers:
+  set hive.exec.reducers.max=<number>
+In order to set a constant number of reducers:
+  set mapreduce.job.reduces=<number>
+Starting Job = job_1485476769108_0002, Tracking URL = http://ip-172-31-49-176.ec2.internal:8088/prox   y/application_1485476769108_0002/
+Kill Command = /usr/lib/hadoop/bin/hadoop job  -kill job_1485476769108_0002
+Hadoop job information for Stage-2: number of mappers: 1; number of reducers: 1
+2017-01-27 00:44:14,542 Stage-2 map = 0%,  reduce = 0%
+2017-01-27 00:44:28,986 Stage-2 map = 100%,  reduce = 0%, Cumulative CPU 3.68 sec
+2017-01-27 00:44:44,351 Stage-2 map = 100%,  reduce = 100%, Cumulative CPU 6.63 sec
+MapReduce Total cumulative CPU time: 6 seconds 630 msec
+Ended Job = job_1485476769108_0002
+MapReduce Jobs Launched:
+Stage-Stage-1: Map: 1  Reduce: 1   Cumulative CPU: 7.95 sec   HDFS Read: 5199464 HDFS Write: 867513    SUCCESS
+Stage-Stage-2: Map: 1  Reduce: 1   Cumulative CPU: 6.63 sec   HDFS Read: 871955 HDFS Write: 2001 SUC   CESS
+Total MapReduce CPU Time Spent: 14 seconds 580 msec
+OK
+__RequestVerificationToken_Lw__=2C2DB   10
+__RequestVerificationToken_Lw__=3DDC1   9
+__RequestVerificationToken_Lw__=A1BC3   9
+__RequestVerificationToken_Lw__=111AA   9
+__RequestVerificationToken_Lw__=233C3   9
+__RequestVerificationToken_Lw__=A223D   9
+__RequestVerificationToken_Lw__=B2CC1   9
+__RequestVerificationToken_Lw__=113B3   9
+__RequestVerificationToken_Lw__=2BDC3   9
+__RequestVerificationToken_Lw__=D13BD   9
+__RequestVerificationToken_Lw__=3BB1C   9
+__RequestVerificationToken_Lw__=32B2B   9
+__RequestVerificationToken_Lw__=21DCC   9
+__RequestVerificationToken_Lw__=A31AB   9
+__RequestVerificationToken_Lw__=DBBC1   8
+__RequestVerificationToken_Lw__=2A2C1   8
+__RequestVerificationToken_Lw__=B2B32   8
+__RequestVerificationToken_Lw__=B32C2   8
+__RequestVerificationToken_Lw__=BD11A   8
+__RequestVerificationToken_Lw__=33ABD   8
+__RequestVerificationToken_Lw__=CBCD3   8
+__RequestVerificationToken_Lw__=B13AB   8
+__RequestVerificationToken_Lw__=AAABA   8
+__RequestVerificationToken_Lw__=D1DBD   8
+__RequestVerificationToken_Lw__=DAD1D   8
+__RequestVerificationToken_Lw__=3AA3C   8
+__RequestVerificationToken_Lw__=A1D22   8
+__RequestVerificationToken_Lw__=CA22C   8
+__RequestVerificationToken_Lw__=AA1D3   8
+__RequestVerificationToken_Lw__=B232C   8
+__RequestVerificationToken_Lw__=DA1D2   8
+__RequestVerificationToken_Lw__=1133C   8
+__RequestVerificationToken_Lw__=2CD1D   8
+__RequestVerificationToken_Lw__=CB1BC   8
+__RequestVerificationToken_Lw__=2A231   8
+__RequestVerificationToken_Lw__=C2221   8
+__RequestVerificationToken_Lw__=1221A   8
+__RequestVerificationToken_Lw__=CA3DD   8
+__RequestVerificationToken_Lw__=1A2CA   8
+__RequestVerificationToken_Lw__=31A2B   8
+__RequestVerificationToken_Lw__=11B3B   8
+__RequestVerificationToken_Lw__=B2CCB   8
+__RequestVerificationToken_Lw__=11DBC   8
+__RequestVerificationToken_Lw__=B1ADC   8
+__RequestVerificationToken_Lw__=1A2C1   8
+__RequestVerificationToken_Lw__=A1ABB   8
+__RequestVerificationToken_Lw__=12CD1   8
+__RequestVerificationToken_Lw__=D3DA2   7
+__RequestVerificationToken_Lw__=DD2AB   7
+__RequestVerificationToken_Lw__=C22C2   7
+Time taken: 118.303 seconds, Fetched: 50 row(s)
+
+hive> CREATE EXTERNAL TABLE IF NOT EXISTS user_info
+    > (
+    >  datetime string,
+    >  user_id string,
+    >  first_name string,
+    >  last_name string,
+    >  location string
+    > )
+    >  ROW FORMAT DELIMITED
+    >  FIELDS TERMINATED BY '\t'
+    >  STORED AS TEXTFILE
+    >  LOCATION '/user/w205/lab_3/user_data'
+    > ;
+OK
+Time taken: 0.099 seconds
+hive> exit;
+[w205@ip-172-31-49-176 ~]$ wget https://s3.amazonaws.com/ucbdatasciencew205/setup_spark.sh
+--2017-01-27 02:06:47--  https://s3.amazonaws.com/ucbdatasciencew205/setup_spark.sh
+Resolving s3.amazonaws.com... 52.216.1.187
+Connecting to s3.amazonaws.com|52.216.1.187|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 3666 (3.6K) [application/x-sh]
+Saving to: `setup_spark.sh'
+
+100%[==========================================================>] 3,666       --.-K/s   in 0s
+
+2017-01-27 02:06:47 (93.8 MB/s) - `setup_spark.sh' saved [3666/3666]
+
+[w205@ip-172-31-49-176 ~]$ bash ./setup_spark.sh
+[w205@ip-172-31-49-176 ~]$ /data/start_metastore.sh
+[w205@ip-172-31-49-176 ~]$ SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/usr/lib/zookeeper/lib/slf4j-log4j12-1.7.5.jar!/org/slf4j/impl/Sta   ticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/home/w205/spark15/lib/spark-assembly-1.5.0-hadoop2.6.0.jar!/org/s   lf4j/impl/StaticLoggerBinder.class]
+SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+SLF4J: Actual binding is of type [org.slf4j.impl.Log4jLoggerFactory]
+Starting Hive Metastore Server
+SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/usr/lib/zookeeper/lib/slf4j-log4j12-1.7.5.jar!/org/slf4j/impl/Sta   ticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/home/w205/spark15/lib/spark-assembly-1.5.0-hadoop2.6.0.jar!/org/s   lf4j/impl/StaticLoggerBinder.class]
+SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+SLF4J: Actual binding is of type [org.slf4j.impl.Log4jLoggerFactory]
+show tables;
+-bash: show: command not found
+[w205@ip-172-31-49-176 ~]$ /data/spark15/bin/spark-sql
+17/01/27 02:10:07 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... u   sing builtin-java classes where applicable
+17/01/27 02:10:10 WARN DomainSocketFactory: The short-circuit local reads feature cannot be used bec   ause libhadoop cannot be loaded.
+17/01/27 02:10:16 WARN MetricsSystem: Using default name DAGScheduler for source because spark.app.id is not set.
+SET hive.support.sql11.reserved.keywords=false
+17/01/27 02:10:23 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+17/01/27 02:10:25 WARN DomainSocketFactory: The short-circuit local reads feature cannot be used because libhadoop cannot be loaded.
+SET spark.sql.hive.version=1.2.1
+SET spark.sql.hive.version=1.2.1
+spark-sql> show tables;
+user_info       false
+weblogs_flat    false
+weblogs_schema  false
+Time taken: 3.658 seconds, Fetched 3 row(s)
+spark-sql> SELECT
+         >     user_id,
+         >     COUNT(user_id) AS log_count
+         > FROM weblogs_schema
+         > GROUP BY user_id
+         > ORDER BY log_count DESC
+         > LIMIT 50;
+__RequestVerificationToken_Lw__=2C2DB   10
+__RequestVerificationToken_Lw__=32B2B   9
+__RequestVerificationToken_Lw__=A1BC3   9
+__RequestVerificationToken_Lw__=B2CC1   9
+__RequestVerificationToken_Lw__=3BB1C   9
+__RequestVerificationToken_Lw__=111AA   9
+__RequestVerificationToken_Lw__=21DCC   9
+__RequestVerificationToken_Lw__=D13BD   9
+__RequestVerificationToken_Lw__=113B3   9
+__RequestVerificationToken_Lw__=A223D   9
+__RequestVerificationToken_Lw__=2BDC3   9
+__RequestVerificationToken_Lw__=3DDC1   9
+__RequestVerificationToken_Lw__=233C3   9
+__RequestVerificationToken_Lw__=A31AB   9
+__RequestVerificationToken_Lw__=2A231   8
+__RequestVerificationToken_Lw__=C2221   8
+__RequestVerificationToken_Lw__=1A2CA   8
+__RequestVerificationToken_Lw__=11B3B   8
+__RequestVerificationToken_Lw__=B2CCB   8
+__RequestVerificationToken_Lw__=B32C2   8
+__RequestVerificationToken_Lw__=CB1BC   8
+__RequestVerificationToken_Lw__=1A2C1   8
+__RequestVerificationToken_Lw__=1133C   8
+__RequestVerificationToken_Lw__=A1D22   8
+__RequestVerificationToken_Lw__=DAD1D   8
+__RequestVerificationToken_Lw__=2CD1D   8
+__RequestVerificationToken_Lw__=AAABA   8
+__RequestVerificationToken_Lw__=CBCD3   8
+__RequestVerificationToken_Lw__=33ABD   8
+__RequestVerificationToken_Lw__=31A2B   8
+__RequestVerificationToken_Lw__=CA22C   8
+__RequestVerificationToken_Lw__=1221A   8
+__RequestVerificationToken_Lw__=12CD1   8
+__RequestVerificationToken_Lw__=AA1D3   8
+__RequestVerificationToken_Lw__=B13AB   8
+__RequestVerificationToken_Lw__=11DBC   8
+__RequestVerificationToken_Lw__=B232C   8
+__RequestVerificationToken_Lw__=D1DBD   8
+__RequestVerificationToken_Lw__=BD11A   8
+__RequestVerificationToken_Lw__=DBBC1   8
+__RequestVerificationToken_Lw__=B2B32   8
+__RequestVerificationToken_Lw__=DA1D2   8
+__RequestVerificationToken_Lw__=3AA3C   8
+__RequestVerificationToken_Lw__=CA3DD   8
+__RequestVerificationToken_Lw__=A1ABB   8
+__RequestVerificationToken_Lw__=2A2C1   8
+__RequestVerificationToken_Lw__=B1ADC   8
+__RequestVerificationToken_Lw__=2DC2D   7
+__RequestVerificationToken_Lw__=BC1DA   7
+__RequestVerificationToken_Lw__=AC3DA   7
+Time taken: 28.681 seconds, Fetched 50 row(s)
+
+spark-sql> CREATE TABLE weblogs_parquet AS SELECT * FROM weblogs_schema;
+Time taken: 8.242 seconds
+
+spark-sql> SELECT user_id, COUNT(user_id) AS log_count
+         > FROM weblogs_parquet GROUP BY user_id
+         > ORDER BY log_count DESC
+         > LIMIT 50;
+__RequestVerificationToken_Lw__=2C2DB   10
+__RequestVerificationToken_Lw__=A1BC3   9
+__RequestVerificationToken_Lw__=21DCC   9
+__RequestVerificationToken_Lw__=32B2B   9
+__RequestVerificationToken_Lw__=B2CC1   9
+__RequestVerificationToken_Lw__=A31AB   9
+__RequestVerificationToken_Lw__=3BB1C   9
+__RequestVerificationToken_Lw__=111AA   9
+__RequestVerificationToken_Lw__=113B3   9
+__RequestVerificationToken_Lw__=3DDC1   9
+__RequestVerificationToken_Lw__=D13BD   9
+__RequestVerificationToken_Lw__=A223D   9
+__RequestVerificationToken_Lw__=233C3   9
+__RequestVerificationToken_Lw__=2BDC3   9
+__RequestVerificationToken_Lw__=2A231   8
+__RequestVerificationToken_Lw__=3AA3C   8
+__RequestVerificationToken_Lw__=1A2CA   8
+__RequestVerificationToken_Lw__=A1D22   8
+__RequestVerificationToken_Lw__=B2CCB   8
+__RequestVerificationToken_Lw__=31A2B   8
+__RequestVerificationToken_Lw__=CB1BC   8
+__RequestVerificationToken_Lw__=12CD1   8
+__RequestVerificationToken_Lw__=11DBC   8
+__RequestVerificationToken_Lw__=B232C   8
+__RequestVerificationToken_Lw__=2CD1D   8
+__RequestVerificationToken_Lw__=AAABA   8
+__RequestVerificationToken_Lw__=CBCD3   8
+__RequestVerificationToken_Lw__=DA1D2   8
+__RequestVerificationToken_Lw__=C2221   8
+__RequestVerificationToken_Lw__=1221A   8
+__RequestVerificationToken_Lw__=A1ABB   8
+__RequestVerificationToken_Lw__=1A2C1   8
+__RequestVerificationToken_Lw__=D1DBD   8
+__RequestVerificationToken_Lw__=1133C   8
+__RequestVerificationToken_Lw__=11B3B   8
+__RequestVerificationToken_Lw__=DAD1D   8
+__RequestVerificationToken_Lw__=BD11A   8
+__RequestVerificationToken_Lw__=DBBC1   8
+__RequestVerificationToken_Lw__=B2B32   8
+__RequestVerificationToken_Lw__=CA22C   8
+__RequestVerificationToken_Lw__=33ABD   8
+__RequestVerificationToken_Lw__=B32C2   8
+__RequestVerificationToken_Lw__=CA3DD   8
+__RequestVerificationToken_Lw__=AA1D3   8
+__RequestVerificationToken_Lw__=B13AB   8
+__RequestVerificationToken_Lw__=2A2C1   8
+__RequestVerificationToken_Lw__=B1ADC   8
+__RequestVerificationToken_Lw__=BC1DA   7
+__RequestVerificationToken_Lw__=2CC2B   7
+__RequestVerificationToken_Lw__=AC3DA   7
+Time taken: 8.216 seconds, Fetched 50 row(s)
+spark-sql>
