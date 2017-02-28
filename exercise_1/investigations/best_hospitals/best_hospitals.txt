@@ -1,7 +1,7 @@
 In terms of what metrics describe the best hospitals, I think the Medicare for the most part had the right categories 
 (https://www.medicare.gov/HospitalCompare/Data/total-performance-scores.html for more information). I believe that 
 all the measures used to determine the final Medicare score are applicable to helping determine what hospital
-provides the best care except for efficiency domain, which may not have any bearing on the patient’s experience. 
+provides the best care except for efficiency domain, which may not have any bearing on the patientâ€™s experience. 
 
 However, I would reweigh the balance between the four remaining groups:  clinical process, patient experience and outcome 
 (3 measures regarding death rates following treatment) and safety (regarding rate of infections in the hospital). It makes sense that 
@@ -11,7 +11,7 @@ negative to a consumer. As such, I believe that the best hospital is the hospita
 score of the following 4 questions: 
 
 Outcomes: Will going to these hospitals potentially lead to more fatal outcomes?
-Infections:  Is there more of chance of contracting another illness under this hospital’s auspices?
+Infections:  Is there more of chance of contracting another illness under this hospitalâ€™s auspices?
 Patient Experience: Will going there be a miserable experience regardless of outcome?
 Clinical Care Quality: Can the hospital deal well in covering a variety of other critical, but less deadly situations?
 
