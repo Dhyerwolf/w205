@@ -1,0 +1,18 @@
+In determining the which states had the highest quality healthcare, I simplied averaged the final scores used for the best_hospital analysis for 
+all the hospitals in the state that had scores listed for all 4 categories. Here are the 10 highest scoring states with the average scores 
+(as well as the breakdown for  clinical process scores, outcome scores, patient experience scores, infection scores and the standard 
+deviation of state average scores). Scores are rounded to 2 decimal points:
+
+state   avg_state_score 	clinical_process_score  outcome_score   patient_exp_score       infections_score        stdev_state_score
+IN      48.87		      	72.59       		40.54       	38.05       		44.31    		11.9
+HI      48.30		       	64.5    		30.67      	44.3    		53.75   		11.77
+KS      48.29		      	64.5    		40        	35.9    		52.75   		13.43
+ID      48.17		        66.11       		41.48       	31.89       		53.19    		10.3
+RI      47.85		        46.11      		62.22      	38.78       		44.3   			9.65
+SC      47.62		        63.13  			37.92       	40.83  			48.63       		12.54
+MT      47.43		        64.44      		43.70      	33.89      		47.67   		11.69
+NH      47.15		        61.92       		44.87 	      	38.77       		43.04    		6.61
+DE      46.81		        50.0    		56.67       	31.5    		49.06       		5
+VA      46.4		        62.63       		40.96      	33.02       		48.99    		10.9
+
+These are the top 10 states with models of high quality care based on this formulation.

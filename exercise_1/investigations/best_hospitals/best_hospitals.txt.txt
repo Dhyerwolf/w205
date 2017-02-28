@@ -1,0 +1,31 @@
+In terms of what metrics describe the best hospitals, I think the Medicare for the most part had the right categories 
+(https://www.medicare.gov/HospitalCompare/Data/total-performance-scores.html for more information). I believe that 
+all the measures used to determine the final Medicare score are applicable to helping determine what hospital
+provides the best care except for efficiency domain, which may not have any bearing on the patient’s experience. 
+
+However, I would reweigh the balance between the four remaining groups:  clinical process, patient experience and outcome 
+(3 measures regarding death rates following treatment) and safety (regarding rate of infections in the hospital). It makes sense that 
+Medicare would put additional weight on outcome as a government entity, but as a consumer I think that I would put more weight on 
+clinical care for a hospital because that covers a lot of routine visits. A hospital with bad clinical care would be a large
+negative to a consumer. As such, I believe that the best hospital is the hospital with the highest average 
+score of the following 4 questions: 
+
+Outcomes: Will going to these hospitals potentially lead to more fatal outcomes?
+Infections:  Is there more of chance of contracting another illness under this hospital’s auspices?
+Patient Experience: Will going there be a miserable experience regardless of outcome?
+Clinical Care Quality: Can the hospital deal well in covering a variety of other critical, but less deadly situations?
+
+Effectively omitting any hospital with a score missing in any of these categories from the running, the following 10 hospitals had the 
+best overall scores (rounded to the nearest 2 decimal digits):
+
+provider_id     hospital_name   		hospital_score  clinical_process_score  outcome_score   patient_exp_score       infections_score             
+170186  	KANSAS HEART HOSPITAL   	78.25   	90.0    		70.0		73.0    		80.0
+100319  	FLORIDA HOSPITAL WESLEY CHAPEL  77.75   	100.0   		73.33	        71.0    		66.67
+450604  	HILL COUNTRY MEMORIAL HOSPITAL  75.08	        95.0    		45.0    	97.0    		63.33
+670025  	THE HEART HOSPITAL BAYLOR PLANO 73.75   	80.0    		50.0    	85.0    		80.0
+450148  	TX HEALTH HARRIS METHODIST HOSP 72.5    	100.0   		85.0    	29.0    		76.0
+200020  	YORK HOSPITAL   		71.83	        100.0   		63.33       	69.0    		55.0
+230055  	DICKINSON COUNTY MEMORIAL HOSP  71.75   	90.0    		70.0		27.0    		100.0
+520208  	ST MARYS JANESVILLE HOSPITAL    70.92	        80.0    		65.0    	52.0    		86.67
+140095  	SAINT ANTHONY HOSPITAL  	70.88	  	100.0   		60.0    	41.0    		82.5
+370026  	ST MARY'S REGIONAL MEDICAL      70.58   	100.0   		63.33      	59.0    		60.0

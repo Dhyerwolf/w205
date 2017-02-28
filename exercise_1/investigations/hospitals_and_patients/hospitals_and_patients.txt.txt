@@ -1,0 +1,12 @@
+In terms of whether patient experience scores correlated with hospital quality or procedural variation (within procedures
+per hospital), I decided to correlate patient experience to each the average score of infections, outcome and clinical care as well as
+the correlation between patient experience and unaveraged infections, outcome and clinical care scores.
+Here are the results (rounded to the nearest 2 decimals).
+
+patient_overall_corr    patient_outcome_corr    patient_clinical_corr   patient_infections_corr
+0.15		        -0.09			0.06		        0.17
+
+There is very little correlation between patient experience and any of the other categories (including both the aggregate category and the
+individual categories). In fact, outcome and patient experience were negatively correlated, which is unexpected (unless...the higher death 
+rates meant that people who weren't happy with the hospital's care were more likely to be dead and therefore unable to give feedback. I will note
+that the you include data from hospitals that had scores for 4 relevant categories, patient_outcome_corr is basically 0). 

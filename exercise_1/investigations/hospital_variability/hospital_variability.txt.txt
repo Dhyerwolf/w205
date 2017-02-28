@@ -1,0 +1,28 @@
+In terms of what procedures have the highest variability between hospitals, I chose to focus on 
+the procedures that are in the aggregate score variables in the hospital score. There variables are as follows:
+
+1. acute myocardial infarction death rates (from outcomes)
+2. heart failure death rates (from outcomes)
+3. pneumonia death rates  (from outcomes)
+4. early scheduled pregnancy rates (from clinical care)
+5. flu vaccine rates (from clinical care)
+
+AMI treatment in clinical care is not included because there are so few data points. Here is the standard 
+deviation of each group divided by the average of each group in order to create a relative scale to 
+compare how widely procedures vary (otherwise the flu vaccine rate would have the variation by default 
+since it's percentage occurance is so much higher than the other categories). Also listed are the score averages
+and standard deviations (Please note that I have rounded to 2 decimal points):
+
+ami_death_ratio         heart_failure_ratio     pneumonia_ratio         pregnancy_care_ratio    flu_vacc_ratio
+0.09		     	0.12      		0.13		 	1.91 		        0.14
+
+ami_death_stdev		ami_death_avg		heart_failure_stdev	heart_failure_avg	pneumonia_stdev 
+1.25		        14.06	        	1.46		        12.16		        2.1	  
+
+pneumonia_avg   	pregnancy_care_stdev	pregnancy_care_avg      flu_vacc_stdev  	flu_vacc_avg
+16.4	        	4.38		        2.29       		13.3       	 	91.79
+
+Early scheduled pregnancy rates had the most variation, with the standard devation being significantly
+bigger than the mean. Of course, the mean is very small at 0.02, but the range of pregnancy_care is much larger than any of the death
+metrics. Flu_vaccine would have the second most variation (for better comparison, you could also subtract flu_vaccine
+from 100, in which case the ratio would a little over 1.5. All the death metrics have very little deviation).
